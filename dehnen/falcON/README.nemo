@@ -1,0 +1,27 @@
+Differences from Dehnen's distribution:
+
+
+1) some files needed to be renamed because  MacOSX cannot
+   see upper and lower case differently
+
+   ** as af GH2006 school these are all past issues
+
+2) when you build within nemo,use the -i flag to pass over problems,
+   and make sure CXX=$CXX is compatible with the one in $NEMOLIB/makedefs
+
+3) If shared library usage of NEMO gives linking problems try one of these:
+    LNEMO := -L$(NEMOLIB) -lnemo -ldl
+    LNEMO := -L$(NEMOLIB) -Wl,--no-as-needed  -lnemo -ldl -Wl,-as-needed
+    LNEMO := $(NEMOLIB)/libnemo.a -ldl 
+   The last example was needed on Ubuntu 12.04 (DSO linking), fix this in
+   the makedefs file. 
+
+Also check the following files used to aid installing falcON tools:
+	Makefile.nemo
+	$NEMO/src/scripts/mknemo.d/gyrfalcON	
+	$NEMO/docs/install_nemo
+	
+
+4) An example of somebody who wrote his own potential, see the contribution by
+   Bekdaulet Shukirgaliyev in https://github.com/BS-astronomer/GasPotential.git
+   http://archiv.ub.uni-heidelberg.de/volltextserver/25699/1/Thesis_Shukirgaliyev.pdf

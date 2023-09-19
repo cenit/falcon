@@ -1,0 +1,48 @@
+# -*- makefile -*-
+#
+# sets library sub-directory and flags for gcc compiler
+# to be included by makefile 
+#
+
+
+EXT             := 
+CXX             := /opt/rh/devtoolset-3/root/usr/bin/g++ $(pFLAGS) # 
+CC              := /opt/rh/devtoolset-3/root/usr/bin/gcc $(pFLAGS) #  
+FC              := gfortran
+
+PLATFORM 	:= $(shell uname -m)
+ifneq ($(VENDOR),apple)
+RDYNAMIC	:= -rdynamic
+endif
+MATHLIB		:= -lm $(enplus) 
+
+# warning flags
+ifdef LIMITED_WARNINGS
+WARNING		:= -Wall $(LIMITED_WARNINGS) -Wshadow \
+		-Woverloaded-virtual
+else
+WARNING		:= -Wall -Wextra -Winit-self -Wshadow \
+		-Wold-style-cast -Woverloaded-virtual 
+endif
+
+# it seem that coverage (to be combined with gcov) does not work for openmp)
+#ifdef WDutilsDevel
+#PROFLAGS	:= --coverage -fprofile-use -Wcoverage-mismatch
+#endif
+# general optimisation and warning flags
+OPTFLAGS	:= -mfpmath=sse  -march=native -mpreferred-stack-boundary=4 \
+		-ggdb3 $(WARNING) -O3 -fPIC -fopenmp -funroll-loops \
+		-fforce-addr $(PROFLAGS) $(RDYNAMIC)
+# for debugging with gdb: 
+#OPTFLAGS	:= -mfpmath=sse  -march=native -g -ggdb3 $(WARNING) -fPIC -fopenmp $(RDYNAMIC)
+
+# to avoid unnecessary warnings in original falcON code: 
+OPTFLAGS += -Wno-format-security	
+
+# these are actually to be set
+CFLAGS		:= $(OPTFLAGS)
+CXXFLAGS	:= -std=c++0x $(OPTFLAGS)
+LDFLAGS		:= -shared -fopenmp $(PROFLAGS)
+
+# end
+

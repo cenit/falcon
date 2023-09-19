@@ -1,0 +1,46 @@
+###############################################################################
+
+                                    pfalcON
+
+###############################################################################
+
+This program is pfalcON ("parallel falcON").
+It is based on the original falcON (gyrfalcON) implementation of W. Dehnen 
+(see NEMO (version 3.3.2): http://carma.astro.umd.edu/nemo/ and 
+http://bima.astro.umd.edu/nemo/man_html/falcON.1.html).
+
+pfalcON authors: 
+- Benoit Lange, University Pierre and Marie Curie
+- Pierre Fortin, University Pierre and Marie Curie
+
+This program includes:
+- a recursive implementation of the original algorithm of W. Dehnen (named 
+  rfalcON),
+- a parallel implementation of the Dual Tree Traversal (named pfalcON) with 
+  OpenMP or TBB tasks (currently only implemented when all particles
+  are "active": see GravIactAll), 
+- SIMD code for P2P kernels (particle-to-particle computation, or direct
+  computation) with ISPC.
+
+pfalcON is available at: https://pfalcon.lip6.fr.
+
+To enable these features, you have to edit Makefile information located in:
+ <falcON/Makefile>
+
+Installation :
+- install NEMO (http://carma.astro.umd.edu/nemo/)
+- copy this directory (pfalcON) in the NEMO 'usr' directory 
+- in a tcsh shell, run in this directory: 
+  $ source ../../nemo_end 
+  $ source ../../nemo_start
+  $ make 
+  $ source falcON/falcON_start 
+
+This version has been tested with:
+- GCC: 4.9.2
+- ICC: 14.0.0
+- TBB: 4.1
+- OpenMP: 4.0
+- ISPC: 1.9.0 (http://ispc.github.io/)
+
+###############################################################################
